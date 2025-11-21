@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Angel - Dev Portfolio</title>
+  </head>
+  <body>
+    <header class="site_header">
+      <div class="wrapper_inner">
+        <nav class="site_header_nav">
+          <ul role="list" class="flex flex_center">
+            <li><a href="#0">HOME</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#work">WORK</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section id="hero">
+        <div class="wrapper">
+          <div class="wrapper_inner">
+            <div class="text_center hero_content">
+              <h1 class="h2">Angel Sterie</h1>
+              <p class="h5">WEB DEVELOPER && PROGRAMMER</p>
+            </div>
+          </div>
+          <ul role="list" class="flex flex_between hero_social">
+            <address>Greater London, United Kingdom</address>
+            <ul role="list" class="flex">
+              <li>Find me online</li>
+              <li>
+                <a href="https://github.com/angelcodescode" target="_blank">
+                  <img src="assets/icon-github.svg" alt="GitHub" width="24" height="24" />
+                </a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<section id="about">
+  <div class="wrapper">
+    <div class="text_center">
+      <h2>
+        A beginner Web Developer and Programmer.
+      </h2>
+    </div>
+    <div class="wrapper_inner">
+      <div class="about_content flex flex_around">
+        <figure class="about_figure text_center">
+          <img width="400" src="assets/user.jpg" alt="Developer" class="cropped_profile_pic" />
+          <figcaption class="about_caption">Angel</figcaption>
+        </figure>
+        <p class="h5">
+          Born in Romania, having grown up in UK, I am a passionate developer and programmer. I started my programming journey by learning to make a small game in GODOT, and realised I would like to do this for a living.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class = "wrapper_inner">
+    <div class = "work_content text_center">
+      <h4 class = "h5">
+        So far I have made a 3D prototype game in Godot as well as completing over 200 challenges on Codewars.
+      </h4>
+      <ul role="list" class="work_logos flex flex_center">
+        <li>
+          <img src="assets/godot_logo.png" alt="Godot" width="100" />
+        </li>
+        <li>
+          <img src="assets/codewars_logo.webp" alt="Codewars" width="100" />
+        </li>
+        <a href="work.html" class="read_more_btn">READ MORE</a>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class = "wrapper">
+    <div class = "text_touch">
+      <p>
+      Want to get in touch? <br />
+      I'd love to hear from you!
+      </p>
+    </div>
+
+    <div class = "wrapper_inner">
+      <h5 class = "h3">Contact Me</h5>
+      <form action = "" method = "post" class = "contact_form">
+        <div class=" "flex>
+          <div class = "form_group">
+            <label for = "name">NAME</label>
+            <input type = "text" id = "name" name = "name"/>
+          </div>
+          <div class = "form_group">
+            <label for = "email">EMAIL</label>
+            <input type = "email" id = "email" name = "email"/>
+          </div>
+        </div>
+        <div class = "form_group">
+          <label for="message">MESSAGE</label>
+          <textarea id="message" name="message"></textarea>
+        </div>
+        <button type="submit">SEND</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <section id="footer">
+    <div class = "wrapper">
+      <div class = "text_right">
+        <p>&copy; 2025 Angel Sterie</p>
+      </div>
+    </div>
+  </section>
+</footer>

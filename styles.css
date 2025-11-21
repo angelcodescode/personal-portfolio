@@ -1,0 +1,502 @@
+/**
+    *CORE CONFIG
+    * This powers everything from utility class generation to breakpoints
+    *to enabling/disabling pre-built components.
+    */
+/* Box Sizing Rules */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* Remove default margin. */
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+
+ul[role='list'],
+ol[role='list'] {
+    list-style: none;
+    padding : 0;
+}
+
+/* Set core root detauls */
+
+html {
+  scroll-behavior: smooth;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    letter-spacing: -0.01em;
+    overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+:focus {
+    outline: 2px dashed #00ff19;
+    outline-offset: 0.25rem;
+}
+
+main:focus{
+    outline : none;
+}
+
+:root {
+  --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
+  --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
+  --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+  --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
+  --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
+  --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
+  --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
+  --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+}
+
+/* @link https://utopia.fyi/space/calculator?c=320,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+:root {
+  --space-3xs: clamp(0.3125rem, 0.3125rem + 0vw, 0.3125rem);
+  --space-2xs: clamp(0.5625rem, 0.5408rem + 0.1087vw, 0.625rem);
+  --space-xs: clamp(0.875rem, 0.8533rem + 0.1087vw, 0.9375rem);
+  --space-s: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+  --space-m: clamp(1.6875rem, 1.6223rem + 0.3261vw, 1.875rem);
+  --space-l: clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem);
+  --space-xl: clamp(3.375rem, 3.2446rem + 0.6522vw, 3.75rem);
+  --space-2xl: clamp(4.5rem, 4.3261rem + 0.8696vw, 5rem);
+  --space-3xl: clamp(6.75rem, 6.4891rem + 1.3043vw, 7.5rem);
+}
+
+h1,
+.h1 {
+  font-size: var(--step-5);
+}
+
+h2,
+.h2 {
+  font-size: var(--step-4);
+}
+
+h3,
+.h3 {
+  font-size: var(--step-3);
+}
+
+h4,
+.h4 {
+  font-size: var(--step-2);
+}
+
+h5,
+.h5 {
+  font-size: var(--step-1);
+}
+
+/* Add spacing for paragraphs */
+p {
+  margin-bottom: var(--space-m);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* define some constants */
+.flex {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+@media (max-width: 468px) {
+  .flex {
+    flex-wrap: wrap;
+  }
+}
+.flex_center {
+  justify-content: center;
+}
+.flex_around {
+  justify-content: space-around;
+}
+.flex_between {
+  justify-content: space-between;
+}
+@media (max-width: 468px) {
+  .flex_around {
+    justify-content: center;
+  }
+  .flex_between {
+    justify-content: center;
+  }
+}
+.text_center {
+  text-align: center;
+}
+.text_right {
+  text-align: right;
+}
+
+.text_touch {
+  text-align: left;
+  font-size: var(--step-1);
+  margin-bottom: var(--space-m);
+}
+
+@media (min-width: 768px) {
+  .text_touch {
+    position: relative;
+    top: -20px;
+    left: 200px;
+  }
+}
+
+/* define spacing */
+.padding-top-3xs {
+  padding: var(--space-3xs);
+}
+
+/* create the wrappers */
+.wrapper {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.wrapper_inner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Style the header */
+.site_header {
+  padding: var(--space-s) 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: transparent;
+}
+
+.site_header_nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: var(--space-2xs) var(--space-s);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.site_header_nav ul li a:hover {
+  background-color: rgba(26, 26, 64, 0.9);
+}
+
+/* Hero section styling */
+.hero_content {
+  padding: var(--space-3xl) 0;
+}
+
+.hero_content h1 {
+  margin-bottom: var(--space-s);
+}
+
+.hero_social {
+  padding-top: var(--space-3xl);
+}
+
+/* General styling for the hero section */
+section {
+  padding: var(--space-2xl) var(--space-l);
+}
+
+section#hero {
+  background: linear-gradient(rgba(26, 26, 64, 0.9), rgba(26, 26, 64, 0.9)),
+    url("assets/background_image_2.jpg");
+  padding-bottom: 4px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  color: #fafafa;
+  --color-accent: #8a2be2;
+  position: relative;
+  padding-top: calc(var(--space-2xl) + 60px);
+}
+
+/* The About Section */
+.cropped_profile_pic{
+  width: 100%;
+  max-width: 400px;
+  object-fit: cover;
+  object-position: 0 -50px;
+  display: block;
+}
+
+.about_content {
+  padding: var(--space-xl) 0;
+  transform: skewX(-10deg);
+}
+
+@media (max-width: 468px) {
+  .about_content {
+    transform: skewX(0deg);
+  }
+}
+
+.about_figure {
+  padding: var(--space-xl) 0;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ccc;
+  display: inline-block;
+  padding: 5px;
+  height: 150px;
+  
+}
+
+.about_img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.about_caption {
+  padding: var(--space-3xs) 0;
+  position: relative;
+  font-weight: bold;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  top: -50px;
+}
+
+section#about {
+  background-color: #ffffff;
+  color: #333;
+  --color-accent: #ffd700;
+}
+
+/* Work section styling */
+section#work {
+  background: linear-gradient(180deg, #2d1b69 0%, #3a2479 50%, #4a2d8f 100%);
+  color: #ffffff;
+  --color-accent: #2e8b57;
+  padding: var(--space-3xl) var(--space-l);
+  padding-bottom: 0;
+}
+
+.work_content {
+  background: rgba(255, 255, 255, 0.1);
+  padding: var(--space-xl);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.work_logos {
+  margin-top: var(--space-xl);
+  gap: var(--space-xl);
+}
+
+.work_logos li {
+  transition: transform 0.3s ease;
+}
+
+.work_logos li:hover {
+  transform: scale(1.1);
+}
+
+.read_more_btn {
+  display: inline-block;
+  padding: var(--space-s) var(--space-xl);
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #5b4a9d 0%, #7661b8 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: var(--step-0);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(91, 74, 157, 0.3);
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.read_more_btn:hover {
+  background: linear-gradient(135deg, #7661b8 0%, #5b4a9d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91, 74, 157, 0.5);
+}
+
+.read_more_btn:active {
+  transform: translateY(0);
+}
+
+/* Contact section styling */
+section#contact {
+  background: linear-gradient(180deg, #4a2d8f 0%, #3a2479 50%, #2d1b69 100%);
+  color: #ffffff;
+  padding: 0 var(--space-l) var(--space-3xl) var(--space-l);
+  padding-top: var(--space-3xl);
+}
+
+.contact_form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  background: rgba(255, 255, 255, 0.1);
+  padding: var(--space-xl);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-top: var(--space-l);
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: var(--step--1);
+  color: #ffffff;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: var(--space-s);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  font-size: var(--step-0);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #ffd700;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 180px;
+  font-family: inherit;
+}
+
+button[type="submit"] {
+  padding: var(--space-s) var(--space-xl);
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #5b4a9d 0%, #7661b8 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: var(--step-0);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(91, 74, 157, 0.3);
+  letter-spacing: 1px;
+  align-self: flex-start;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #7661b8 0%, #5b4a9d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91, 74, 157, 0.5);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+
+/* Footer styling */
+section#footer {
+  padding: var(--space-l) var(--space-l)
+}
+
+.godot_game {
+  text-align: justify;
+  padding: var(--space-xl) 0;
+}
+
+.godot_game p {
+  font-size: var(--step-1);
+  line-height: 1.6;
+}
+
+.godot_title {
+  padding: var(--space-xl) 0;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ccc;
+  display: inline-block;
+  padding: 5px;
+  height: 150px;
+  
+}
