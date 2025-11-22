@@ -1,10 +1,14 @@
 /**
-    *CORE CONFIG
-    * This powers everything from utility class generation to breakpoints
-    *to enabling/disabling pre-built components.
-    */
-/* Box Sizing Rules */
+ * CORE CONFIG
+ * Global CSS Reset and Base Styles
+ * This provides a consistent foundation across all browsers
+ */
 
+/* ================================
+   CSS RESET
+   ================================ */
+
+/* Apply border-box sizing to all elements for easier layout calculations */
 *,
 *::before,
 *::after {
@@ -12,8 +16,7 @@
     font-family: sans-serif;
 }
 
-/* Remove default margin. */
-
+/* Remove default margins to ensure consistent spacing */
 body,
 h1,
 h2,
@@ -27,49 +30,53 @@ dd {
     margin: 0;
 }
 
-/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-
+/* Remove default list styling for semantic lists */
 ul[role='list'],
 ol[role='list'] {
     list-style: none;
     padding : 0;
 }
 
-/* Set core root detauls */
+/* ================================
+   BASE HTML/BODY SETTINGS
+   ================================ */
 
+/* Enable smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 html:focus-within {
     scroll-behavior: smooth;
 }
 
-/* Set core body defaults */
+/* Body defaults - includes padding-top to account for fixed header */
 body {
     min-height: 100vh;
     text-rendering: optimizeSpeed;
     letter-spacing: -0.01em;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding-top: 60px; /* Space for fixed header */
 }
 
-html {
-  overflow-x: hidden;
-}
+/* ================================
+   ELEMENT DEFAULTS
+   ================================ */
 
-/* A elements that don't have a class get default styles */
+/* Better text decoration rendering for links */
 a:not([class]) {
     text-decoration-skip-ink: auto;
 }
 
-/* Make images easier to work with */
+/* Responsive images - prevent overflow and display as block */
 img,
 picture {
     max-width: 100%;
     display: block;
 }
 
-/* Inherit fonts for inputs and buttons */
+/* Form elements inherit font settings */
 input,
 button,
 textarea,
@@ -77,8 +84,11 @@ select {
     font: inherit;
 }
 
-/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+/* ================================
+   ACCESSIBILITY
+   ================================ */
 
+/* Respect user's motion preferences for accessibility */
 @media (prefers-reduced-motion: reduce) {
     html:focus-within {
         scroll-behavior: auto;
@@ -94,6 +104,7 @@ select {
     }
 }
 
+/* Custom focus styles for better visibility */
 :focus {
     outline: 2px dashed #00ff19;
     outline-offset: 0.25rem;
@@ -103,34 +114,44 @@ main:focus{
     outline : none;
 }
 
+/* ================================
+   CSS CUSTOM PROPERTIES (Variables)
+   ================================ */
+
+/* Fluid Typography Scale - Font sizes that scale with viewport */
 :root {
-  --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
-  --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
-  --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
-  --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
-  --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
-  --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
-  --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
-  --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+  --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem); /* Smallest text */
+  --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);   /* Small text */
+  --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);  /* Base text */
+  --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem); /* h5 */
+  --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem); /* h4 */
+  --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem); /* h3 */
+  --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem); /* h2 */
+  --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem); /* h1 */
 }
 
-/* @link https://utopia.fyi/space/calculator?c=320,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
-
+/* Fluid Spacing Scale - Consistent spacing that scales with viewport
+   Generated using: https://utopia.fyi/space/calculator */
 :root {
-  --space-3xs: clamp(0.3125rem, 0.3125rem + 0vw, 0.3125rem);
-  --space-2xs: clamp(0.5625rem, 0.5408rem + 0.1087vw, 0.625rem);
-  --space-xs: clamp(0.875rem, 0.8533rem + 0.1087vw, 0.9375rem);
-  --space-s: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
-  --space-m: clamp(1.6875rem, 1.6223rem + 0.3261vw, 1.875rem);
-  --space-l: clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem);
-  --space-xl: clamp(3.375rem, 3.2446rem + 0.6522vw, 3.75rem);
-  --space-2xl: clamp(4.5rem, 4.3261rem + 0.8696vw, 5rem);
-  --space-3xl: clamp(6.75rem, 6.4891rem + 1.3043vw, 7.5rem);
+  --space-3xs: clamp(0.3125rem, 0.3125rem + 0vw, 0.3125rem);       /* 5px */
+  --space-2xs: clamp(0.5625rem, 0.5408rem + 0.1087vw, 0.625rem);  /* ~9-10px */
+  --space-xs: clamp(0.875rem, 0.8533rem + 0.1087vw, 0.9375rem);   /* ~14-15px */
+  --space-s: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);      /* ~18-20px */
+  --space-m: clamp(1.6875rem, 1.6223rem + 0.3261vw, 1.875rem);    /* ~27-30px */
+  --space-l: clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem);         /* ~36-40px */
+  --space-xl: clamp(3.375rem, 3.2446rem + 0.6522vw, 3.75rem);     /* ~54-60px */
+  --space-2xl: clamp(4.5rem, 4.3261rem + 0.8696vw, 5rem);         /* ~72-80px */
+  --space-3xl: clamp(6.75rem, 6.4891rem + 1.3043vw, 7.5rem);      /* ~108-120px */
 }
 
+/* ================================
+   TYPOGRAPHY
+   ================================ */
+
+/* Heading sizes using fluid type scale */
 h1,
 .h1 {
-  font-size: var(--step-5);
+  font-size: var(--step-5); /* Largest heading */
 }
 
 h2,
@@ -153,35 +174,48 @@ h5,
   font-size: var(--step-1);
 }
 
-/* Add spacing for paragraphs */
+/* Paragraph spacing - auto margin between paragraphs */
 p {
   margin-bottom: var(--space-m);
 }
 
+/* Remove bottom margin from last paragraph in a container */
 p:last-child {
   margin-bottom: 0;
 }
 
-/* define some constants */
+/* ================================
+   UTILITY CLASSES
+   ================================ */
+
+/* Flexbox utilities */
 .flex {
   display: flex;
   align-items: center;
   gap: var(--space-s);
 }
+
+/* Wrap flex items on mobile */
 @media (max-width: 468px) {
   .flex {
     flex-wrap: wrap;
   }
 }
+
+/* Flex justify content options */
 .flex_center {
   justify-content: center;
 }
+
 .flex_around {
   justify-content: space-around;
 }
+
 .flex_between {
   justify-content: space-between;
 }
+
+/* Center flex content on mobile for better layout */
 @media (max-width: 468px) {
   .flex_around {
     justify-content: center;
@@ -190,19 +224,24 @@ p:last-child {
     justify-content: center;
   }
 }
+
+/* Text alignment utilities */
 .text_center {
   text-align: center;
 }
+
 .text_right {
   text-align: right;
 }
 
+/* Special text positioning for contact section */
 .text_touch {
   text-align: left;
   font-size: var(--step-1);
   margin-bottom: var(--space-m);
 }
 
+/* Move text on larger screens */
 @media (min-width: 768px) {
   .text_touch {
     position: relative;
@@ -211,34 +250,46 @@ p:last-child {
   }
 }
 
-/* define spacing */
+/* Spacing utility */
 .padding-top-3xs {
   padding: var(--space-3xs);
 }
 
-/* create the wrappers */
+/* ================================
+   LAYOUT WRAPPERS
+   ================================ */
+
+/* Main content wrapper - full width */
 .wrapper {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
 }
+
+/* Inner content wrapper - narrower for readability */
 .wrapper_inner {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
 }
 
-/* Style the header */
+/* ================================
+   HEADER / NAVIGATION
+   ================================ */
+
+/* Fixed header with glassmorphism effect */
 .site_header {
   padding: var(--space-s) 0;
-  position: absolute;
+  position: fixed; /* Stay at top while scrolling */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
-  background: transparent;
+  z-index: 10; /* Above other content */
+  background: rgba(26, 26, 64, 0.95); /* Semi-transparent dark blue */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
 }
 
+/* Navigation link styling */
 .site_header_nav ul li a {
   text-decoration: none;
   color: #fff;
@@ -247,9 +298,14 @@ p:last-child {
   transition: background-color 0.2s ease;
 }
 
+/* Navigation link hover effect */
 .site_header_nav ul li a:hover {
   background-color: rgba(26, 26, 64, 0.9);
 }
+
+/* ================================
+   HERO SECTION
+   ================================ */
 
 /* Hero section styling */
 .hero_content {
@@ -281,6 +337,10 @@ section#hero {
   position: relative;
   padding-top: calc(var(--space-2xl) + 60px);
 }
+
+/* ================================
+   ABOUT SECTION
+   ================================ */
 
 /* The About Section */
 .cropped_profile_pic{
@@ -331,6 +391,10 @@ section#about {
   color: #333;
   --color-accent: #ffd700;
 }
+
+/* ================================
+   WORK SECTION
+   ================================ */
 
 /* Work section styling */
 section#work {
@@ -387,6 +451,10 @@ section#work {
 .read_more_btn:active {
   transform: translateY(0);
 }
+
+/* ================================
+   CONTACT SECTION
+   ================================ */
 
 /* Contact section styling */
 section#contact {
@@ -476,27 +544,69 @@ button[type="submit"]:active {
 }
 
 
+/* ================================
+   FOOTER
+   ================================ */
+
 /* Footer styling */
-section#footer {
-  padding: var(--space-l) var(--space-l)
+footer {
+  background-color: #1a1a40;
+  color: #ffffff;
 }
 
+section#footer {
+  padding: var(--space-l) var(--space-l);
+}
+
+section#footer p {
+  margin: 0;
+}
+
+/* ================================
+   GODOT GAME SECTION (work.html)
+   ================================ */
+
+/* Main Godot game section container */
+section#godot_game {
+  background-color: #ffffff;
+  color: #333;
+  padding: var(--space-2xl) var(--space-l);
+}
+
+/* Justified text wrapper */
 .godot_game {
   text-align: justify;
   padding: var(--space-xl) 0;
 }
 
-.godot_game p {
+/* Paragraph styling - matches About section */
+.godot_title p {
   font-size: var(--step-1);
   line-height: 1.6;
+  font-family: sans-serif;
 }
 
+/* Content wrapper - centered with max width */
 .godot_title {
-  padding: var(--space-xl) 0;
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid #ccc;
-  display: inline-block;
-  padding: 5px;
-  height: 150px;
-  
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Screenshot image styling */
+.godot_title img {
+  margin: var(--space-l) 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Video showcase container */
+.game_showcase {
+  max-width: 100%;
+  margin: var(--space-l);
+}
+
+/* Responsive video - scales with window size */
+.game_showcase video {
+  width: 100%;
+  height: auto;
 }
