@@ -361,6 +361,81 @@ section#hero {
   padding-top: var(--space-2xl);
 }
 
+/* Ensure anchor jumps account for the fixed header height so targets are
+   not hidden behind the header when clicking nav links. JS sets --header-height. */
+#hero {
+  scroll-margin-top: calc(var(--header-height, 0) + 12px);
+}
+
+/* ================================
+   RESPONSIVE TWEAKS FOR COMMON DEVICE SIZES
+   The following media queries target the sizes you listed (phones, tablets,
+   landscape modes and common desktop widths). They only adjust layout and
+   spacing — fonts, colours and the visual design system are kept intact.
+   Comments explain each change. */
+
+/* Very small phones (<=320px) - ensure image and nav fit */
+@media (max-width: 320px) {
+  .site_header_nav ul li a { padding: 6px 8px; font-size: var(--step--1); }
+  .wrapper { padding-left: 12px; padding-right: 12px; }
+  .cropped_profile_pic { width: 160px; height: 160px; }
+  .about_figure { padding: 2px; }
+}
+
+/* Small phones (<=360px) */
+@media (max-width: 360px) {
+  .site_header_nav ul li a { padding: 6px 10px; }
+  .cropped_profile_pic { width: 200px; height: 200px; }
+}
+
+/* iPhone SE / small devices (<=375px) and similar */
+@media (max-width: 375px) {
+  .site_header_nav ul { justify-content: center; gap: 6px; }
+  .cropped_profile_pic { width: 220px; height: 220px; }
+  /* Stack content vertically for narrow portrait phones */
+  .about_content { transform: none; flex-direction: column; align-items: center; }
+  .about_figure { display: block; margin: 0 auto 8px; }
+}
+
+/* Narrow phones (<=390px) - iPhone Pro sizes */
+@media (max-width: 390px) {
+  .cropped_profile_pic { width: 240px; height: 240px; }
+}
+
+/* Small phablets (<=414px) */
+@media (max-width: 414px) {
+  .cropped_profile_pic { width: 260px; height: 260px; }
+  .site_header_nav ul li a { padding: 8px 10px; }
+}
+
+/* Mobile landscape / small phones horizontal - reduce hero padding */
+@media (max-width: 667px) and (max-height: 420px) {
+  section { padding-left: var(--space-s); padding-right: var(--space-s); }
+}
+
+/* Tablets portrait (<=820px) - allow side-by-side but reduce image size */
+@media (max-width: 820px) {
+  .cropped_profile_pic { width: 280px; height: 280px; }
+  .wrapper_inner { max-width: 720px; }
+}
+
+/* Tablet landscape / small desktops (<=1024px) - increase content breathing room */
+@media (max-width: 1024px) {
+  section { padding-left: var(--space-m); padding-right: var(--space-m); }
+  .about_content { gap: var(--space-m); }
+}
+
+/* Large desktop adjustments (>=1280px) - widen wrapper for larger screens */
+@media (min-width: 1280px) {
+  .wrapper { max-width: 1280px; }
+  .wrapper_inner { max-width: 1000px; }
+}
+
+/* Ultra-wide safety net: ensure nothing breaks on very wide monitors */
+@media (min-width: 2000px) {
+  .wrapper { max-width: 1600px; }
+}
+
 /* ================================
    ABOUT SECTION
    ================================ */
@@ -684,4 +759,16 @@ section#godot_game {
 .game_showcase video {
   width: 100%;
   height: auto;
+  /* Added: round the video corners to match images and give a consistent UI.
+     `border-radius` works on video elements in modern browsers; adding
+     `display:block` prevents inline whitespace and `overflow:hidden` on the
+     container ensures the radius is clipped consistently. */
+  display: block;
+  border-radius: 8px;
+}
+
+/* Ensure the container clips the video corners (useful for some browsers) */
+.game_showcase {
+  overflow: hidden;
+  border-radius: 8px; /* matches image corner radius used elsewhere */
 }
