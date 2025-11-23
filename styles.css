@@ -57,7 +57,10 @@ body {
     text-rendering: optimizeSpeed;
     letter-spacing: -0.01em;
     overflow-x: hidden; /* Prevent horizontal scroll */
-    padding-top: 60px; /* Space for fixed header */
+  /* Adjusted: when header is fixed we set the top offset dynamically
+     via the CSS variable --header-height so content is never overlapped.
+     The JS sets --header-height on load/resize. Fallback to 0 if not set. */
+  padding-top: var(--header-height, 0);
 }
 
 /* ================================
@@ -128,6 +131,11 @@ main:focus{
   --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem); /* h3 */
   --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem); /* h2 */
   --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem); /* h1 */
+}
+
+/* Site theme colors */
+:root {
+  --site-header-bg: rgba(26, 26, 64, 0.95);
 }
 
 /* Fluid Spacing Scale - Consistent spacing that scales with viewport
@@ -279,14 +287,26 @@ p:last-child {
 
 /* Fixed header with glassmorphism effect */
 .site_header {
+  /* Modified: make header fixed so we can hide/show it while scrolling.
+     We measure header height with JS and set --header-height so content
+     is offset correctly (see body { padding-top: var(--header-height) }).
+     Transforms are used to animate hide/show without layout reflow. */
   padding: var(--space-s) 0;
-  position: fixed; /* Stay at top while scrolling */
+  position: fixed; /* Fixed so header can overlay content and be translated */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10; /* Above other content */
-  background: rgba(26, 26, 64, 0.95); /* Semi-transparent dark blue */
+  width: 100%;
+  z-index: 999; /* Above other content */
+  background: var(--site-header-bg); /* Semi-transparent dark blue */
   backdrop-filter: blur(10px); /* Frosted glass effect */
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1); /* Smooth hide/show */
+  transform: translateY(0); /* Visible by default */
+}
+
+/* When this utility class is added via JS, header will slide up out of view */
+.site_header--hidden {
+  transform: translateY(-100%);
 }
 
 /* Navigation link styling */
@@ -335,7 +355,10 @@ section#hero {
   color: #fafafa;
   --color-accent: #8a2be2;
   position: relative;
-  padding-top: calc(var(--space-2xl) + 60px);
+  /* Adjusted: removed hard-coded 60px offset that accounted for a fixed header.
+     Header is now sticky and occupies space in the flow, so we only need
+     the normal top spacing. */
+  padding-top: var(--space-2xl);
 }
 
 /* ================================
@@ -344,10 +367,14 @@ section#hero {
 
 /* The About Section */
 .cropped_profile_pic{
-  width: 100%;
-  max-width: 400px;
+  /* Ensure the profile image uses a fixed sensible width and centers the
+     crop point so the image doesn't appear shifted or leave blank space
+     inside the figure border. Use height:auto to preserve aspect ratio. */
+  width: 300px;
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
-  object-position: 0 -50px;
+  object-position: center center; /* previously was 0 -50px which produced visible shift */
   display: block;
 }
 
@@ -363,13 +390,21 @@ section#hero {
 }
 
 .about_figure {
-  padding: var(--space-xl) 0;
+  /* Adjusted: removed forced height so the image can scale naturally
+    and not be cropped on narrow viewports. Kept box shadow and border. */
   box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
   border: 2px solid #ccc;
-  display: inline-block;
-  padding: 5px;
-  height: 150px;
-  
+  /* Use inline-flex so the border tightly wraps the image and caption
+     while keeping the figure inline with the paragraph on wide screens. */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0; /* remove extra gap so border hugs image and caption tightly */
+  padding: 2px; /* minimal padding so border fits snugly */
+  line-height: 0; /* removes inline/line height gaps inside the figure */
+  align-items: center; /* center image and caption horizontally inside the border */
+  height: auto; /* allow image to dictate height */
+  vertical-align: middle; /* prevent extra baseline spacing when inline */
 }
 
 .about_img {
@@ -379,11 +414,49 @@ section#hero {
 }
 
 .about_caption {
-  padding: var(--space-3xs) 0;
-  position: relative;
+  padding: 0; /* keep caption tight against image */
+  /* Adjusted: caption was absolutely/relatively positioned which created
+     overlap and empty space. Make it flow naturally so it doesn't cause gaps
+     or overlap during responsive resize. */
+  position: static;
   font-weight: bold;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-  top: -50px;
+  margin: 0; /* remove extra gap inside the border */
+  line-height: 1; /* tighter caption spacing */
+}
+
+/* Flex children should be allowed to shrink so text won't overflow into images
+   when container is narrowed. This prevents the paragraph from overlapping the image. */
+.about_content > * {
+  min-width: 0;
+}
+
+/* For medium and smaller screens stack the about section vertically so the
+   image sits above the text and doesn't get cut off. Also remove skew so
+   layout is stable while resizing. */
+@media (max-width: 768px) {
+  .about_content {
+    transform: none; /* remove skew for better stacking */
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-m);
+  }
+
+  .about_figure {
+    padding: 0; /* tighten spacing on mobile */
+    border: none; /* optional: remove decorative border on small screens */
+    box-shadow: none;
+  }
+
+  .cropped_profile_pic {
+    max-width: 280px; /* scale down on tablet/mobile */
+    object-position: center; /* center the crop point */
+  }
+
+  .about_caption {
+    margin-top: var(--space-xs);
+    top: auto;
+  }
 }
 
 section#about {
@@ -398,7 +471,8 @@ section#about {
 
 /* Work section styling */
 section#work {
-  background: linear-gradient(180deg, #2d1b69 0%, #3a2479 50%, #4a2d8f 100%);
+  /* Match the header bar color for visual consistency */
+  background: linear-gradient(180deg, var(--site-header-bg) 0%, rgba(26,26,64,0.95) 60%);
   color: #ffffff;
   --color-accent: #2e8b57;
   padding: var(--space-3xl) var(--space-l);
@@ -458,7 +532,8 @@ section#work {
 
 /* Contact section styling */
 section#contact {
-  background: linear-gradient(180deg, #4a2d8f 0%, #3a2479 50%, #2d1b69 100%);
+  /* Match the header bar color for visual consistency */
+  background: linear-gradient(180deg, var(--site-header-bg) 0%, rgba(20,20,54,0.95) 100%);
   color: #ffffff;
   padding: 0 var(--space-l) var(--space-3xl) var(--space-l);
   padding-top: var(--space-3xl);
