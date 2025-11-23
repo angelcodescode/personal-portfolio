@@ -11,7 +11,8 @@
       <div class="wrapper_inner">
         <nav class="site_header_nav">
           <ul role="list" class="flex flex_center">
-            <li><a href="#0">HOME</a></li>
+            <!-- Fixed: HOME should link to the hero section rather than "#0" -->
+            <li><a href="#hero">HOME</a></li>
             <li><a href="#about">ABOUT</a></li>
             <li><a href="#work">WORK</a></li>
             <li><a href="#contact">CONTACT</a></li>
@@ -42,8 +43,11 @@
         </div>
       </section>
     </main>
-  </body>
-</html>
+
+    <!-- Fixed: Removed premature closing </body> and </html> that were originally here
+         so the rest of the page's sections (about, work, contact, footer) stay inside
+         the document <body>. The final </body> and </html> tags are now at the end
+         of this file. -->
 
 <section id="about">
   <div class="wrapper">
@@ -97,7 +101,8 @@
     <div class = "wrapper_inner">
       <h5 class = "h3">Contact Me</h5>
       <form action = "" method = "post" class = "contact_form">
-        <div class=" "flex>
+        <!-- Fixed: corrected malformed class attribute. It was `class=" "flex` which is invalid. -->
+        <div class="flex">
           <div class = "form_group">
             <label for = "name">NAME</label>
             <input type = "text" id = "name" name = "name"/>
@@ -125,4 +130,11 @@
       </div>
     </div>
   </section>
-</footer>
+    </footer>
+
+  <!-- Fixed: Added closing body and html tags here. Previously they appeared too early which
+       caused sections to render outside the document root and broke layout at narrow sizes. -->
+    </body>
+    <!-- External JS: header auto-hide. Script file is in assets/js/header.js -->
+    <script src="assets/js/header.js" defer></script>
+  </html>
